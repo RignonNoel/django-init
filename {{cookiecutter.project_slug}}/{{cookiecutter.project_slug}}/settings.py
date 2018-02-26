@@ -74,6 +74,11 @@ TEMPLATES = [
 WSGI_APPLICATION = '{{cookiecutter.project_slug}}.wsgi.application'
 
 
+# Default user model
+
+AUTH_USER_MODEL = '{{cookiecutter.project_slug}}.User'
+
+
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
