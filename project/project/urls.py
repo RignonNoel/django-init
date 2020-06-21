@@ -1,5 +1,6 @@
-"""The `urlpatterns` list routes URLs to views.
-For more information please see:
+"""project URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.0/topics/http/urls/
 Examples:
 Function views
@@ -16,13 +17,16 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls import include
+from django.conf.urls.static import static
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 
 # External application routers
 # ie: from app.urls import router as app_router
 
-from . import views
+
+from project.apps.user.urls import router as user_router
+from project.apps.user.urls import urlpatterns as user_urls
 
 
 class OptionalSlashDefaultRouter(DefaultRouter):
@@ -37,48 +41,20 @@ class OptionalSlashDefaultRouter(DefaultRouter):
 router = OptionalSlashDefaultRouter()
 
 # External workplace application
-# ie: router.registry.extend(app_router.registry)
-
-# Main application routes
-router.register('users', views.UserViewSet)
-router.register('permissions', views.PermissionViewSet)
-
-router.register(
-    'authentication',
-    views.TemporaryTokenDestroy,
-    basename="authentication",
-)
+router.registry.extend(user_router.registry)
 
 urlpatterns = [
     path(
-        'authentication',
-        views.ObtainTemporaryAuthToken.as_view(),
-        name='token_api'
+        'admin/', admin.site.urls
     ),
     path(
-        'users/activate',
-        views.UsersActivation.as_view(),
-        name='users_activation',
+        'docs/',
+        include_docs_urls(
+            title=settings.LOCAL_SETTINGS['ORGANIZATION'] + " API",
+            authentication_classes=[],
+            permission_classes=[],
+        )
     ),
-    path(
-        'profile',
-        views.UserViewSet.as_view({
-            'get': 'retrieve'
-        }),
-        name='profile',
-        kwargs={'pk': 'me'},
-    ),
-    # Forgot password
-    path(
-        'reset_password',
-        views.ResetPassword.as_view(),
-        name='reset_password'
-    ),
-    path(
-        'change_password',
-        views.ChangePassword.as_view(),
-        name='change_password'
-    ),
-    path('api-auth/', include('rest_framework.urls')),
+    path('', include(user_urls)),
     path('', include(router.urls)),  # includes router generated URL
 ]

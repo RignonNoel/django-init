@@ -5,8 +5,8 @@ from rest_framework.test import APIClient, APITestCase
 
 from django.urls import reverse
 
-from {{cookiecutter.project_slug}}.factories import UserFactory, AdminFactory
-from {{cookiecutter.project_slug}}.testClasses import SerializerTestCase
+from project.factories import UserFactory, AdminFactory
+from project.testClasses import SerializerTestCase
 
 
 class UsersIdTests(SerializerTestCase):

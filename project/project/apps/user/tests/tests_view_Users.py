@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.test.utils import override_settings
 from django.contrib.auth import get_user_model
 
-from {{cookiecutter.project_slug}}.factories import UserFactory, AdminFactory
+from project.factories import UserFactory, AdminFactory
 from ..models import ActionToken
 
 User = get_user_model()
@@ -266,7 +266,7 @@ class UsersTests(APITestCase):
             }
         }
     )
-    @mock.patch('{{cookiecutter.project_slug}}.services.EmailMessage.send',
+    @mock.patch('project.services.EmailMessage.send',
                 return_value=0)
     def test_create_user_activation_email_failure(self, send):
         """
@@ -314,7 +314,7 @@ class UsersTests(APITestCase):
             }
         }
     )
-    @mock.patch('{{cookiecutter.project_slug}}.services.EmailMessage.send',
+    @mock.patch('project.services.EmailMessage.send',
                 return_value=0)
     def test_create_user_auto_activate(self, services):
         """

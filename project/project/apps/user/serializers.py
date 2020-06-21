@@ -12,7 +12,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 
-from {{cookiecutter.project_slug}}.apps.user.models import ActionToken
+from project.apps.user.models import ActionToken
 
 User = get_user_model()
 
